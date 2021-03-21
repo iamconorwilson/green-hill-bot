@@ -15,34 +15,18 @@ client.on('ready', async () => {
   const channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
   if(!channel) return;
 
-  //JOIN CHANNEL AND START PLAYING
-  const connection = await channel.join();
-  const dispatcher = connection.play(ytdl(URL));
-  //PAUSE IF CHANNEL IS EMPTY (BESIDES BOT)
-  if(channel.members.size === 1) {
-    dispatcher.pause();
-    console.log('User Not Present. Pausing');
-  }
-
-  //AS USERS JOIN/LEAVE, CHECK CURRENT MEMBERS. PAUSE IF EMPTY
-  client.on('voiceStateUpdate', async () => {
-  if(channel.members.size > 1) {
-    dispatcher.resume();
-    console.log('User Present. Resuming');
-  } else {
-    dispatcher.pause();
-    console.log('User Not Present. Pausing');
-  }
-});
-
-//ONCE FINISHED, PLAY AGAIN!
-dispatcher.on('finish', () => {
-  const dispatcher = connection.play(ytdl(URL));
-  if(channel.members.size === 1) {
-    dispatcher.pause();
-    console.log('User Not Present. Pausing');
-  }
-});
+//JOIN CHANNEL AND START PLAYING
+await channel.join().then(connection => {
+  function plays (connection) {
+      console.log('Play');
+      const dispatcher = connection.play(ytdl(URL));
+      dispatcher.on('finish', () => {
+        //ONCE FINISHED, START AGAIN!
+        plays(connection);
+      });
+  };
+  plays(connection);
 })
+});
 
 client.login(TOKEN) //TEST
