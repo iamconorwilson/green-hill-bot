@@ -1,0 +1,30 @@
+{
+  "name": "sonic-bot",
+  "version": "1.0.0",
+  "description": "A dumb discord audio bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "10.x",
+    "npm": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://iamconorwilson@github.com/iamconorwilson/sonic-bot.git"
+  },
+  "author": "Conor Wilson",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.5.0",
+    "discord.js": "^12.5.1",
+    "ffmpeg-static": "^4.2.8",
+    "ytdl-core": "^4.5.0"
+  },
+  "bugs": {
+    "url": "https://github.com/iamconorwilson/sonic-bot/issues"
+  },
+  "homepage": "https://github.com/iamconorwilson/sonic-bot#readme"
+}
