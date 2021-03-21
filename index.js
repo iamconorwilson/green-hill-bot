@@ -7,7 +7,7 @@ const TOKEN = process.env.CLIENT_TOKEN
       CHANNEL = process.env.CHANNEL_ID
       SERVER =  process.env.SERVER_ID
       STATUS = "Green Hill Zone"
-      URL = "https://www.youtube.com/watch?v=ZZNwTMBNULY";
+      URL = "https://www.youtube.com/watch?v=G-i8HYi1QH0";
 
 client.on('ready', async () => {
   //SET STATUS AND CHECK CHANNEL EXISTS
