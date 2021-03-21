@@ -1,7 +1,14 @@
-const { TOKEN, CHANNEL, SERVER, STATUS, LIVE } = require("./config.json");
 const discord = require("discord.js");
+require('dotenv').config();
 const client = new discord.Client();
 const ytdl = require('ytdl-core');
+
+const TOKEN = process.env.TOKEN
+      CHANNEL = process.env.CHANNEL
+      SERVER =  process.env.SERVER
+      STATUS = "Green Hill Zone"
+      URL = "https://www.youtube.com/watch?v=G-i8HYi1QH0";
+
 
 client.on('ready', async () => {
   //SET STATUS AND CHECK CHANNEL EXISTS
@@ -11,7 +18,7 @@ client.on('ready', async () => {
 
   //JOIN CHANNEL AND START PLAYING
   const connection = await channel.join();
-  const dispatcher = connection.play(ytdl(LIVE));
+  const dispatcher = connection.play(ytdl(URL));
   //PAUSE IF CHANNEL IS EMPTY (BESIDES BOT)
   if(channel.members.size === 1) {
     dispatcher.pause();
@@ -31,7 +38,7 @@ client.on('ready', async () => {
 
 //ONCE FINISHED, PLAY AGAIN!
 dispatcher.on('finish', () => {
-  const dispatcher = connection.play(ytdl(LIVE));
+  const dispatcher = connection.play(ytdl(URL));
   if(channel.members.size === 1) {
     dispatcher.pause();
     console.log('User Not Present. Pausing');
