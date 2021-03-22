@@ -9,14 +9,31 @@ const TOKEN = process.env.CLIENT_TOKEN
       URL = "https://www.youtube.com/watch?v=G-i8HYi1QH0";
 
 client.on('ready', async () => {
-  //SET STATUS AND CHECK CHANNEL EXISTS
+//SET STATUS AND CHECK CHANNEL EXISTS
   client.user.setActivity(STATUS,{type: 'LISTENING'})
   const channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
   if(!channel) return;
 
+//SET UP PLAY FUNCTION
   function plays (connection) {
-    console.log('Play');
+    //START STREAM
     const dispatcher = connection.play(ytdl(URL));
+    //IF CHANNEL IS EMPTY, PAUSE
+    if (channel.size <= 1) {
+      dispatcher.pause();
+    };
+
+    client.on('voiceStateUpdate', () => {
+      //WHEN USER JOINS/LEAVES, CHECK CHANNEL SIZE
+      if(channel.size <= 1) {
+        //IF CHANNEL IS EMPTY, PAUSE
+        dispatcher.pause();
+      } else {
+        //ELSE RESUME
+        dispatcher.resume();
+      }
+    });
+
     dispatcher.on('finish', () => {
       //ONCE FINISHED, START AGAIN!
       plays(connection);
@@ -28,15 +45,18 @@ client.on('ready', async () => {
     plays(connection);
   })
 
+//EMERGENCY RESTART COMMAND
   client.on('message', async message => {
     if (!message.guild) return;
     if (message.content === '!restartghb') {
-      let botChannel = message.guild.voice.connection.channel;
+      //CHECK FOR RESTART MESSAGE
       console.log('Stopping')
-      botChannel.leave();
+      //LEAVE THE CHANNEL
+      channel.leave();
       setTimeout(function(){
         console.log('Restarting')
-        botChannel.join().then(connection => {
+        //WAIT 2 SECONDS AND REJOIN CHANNEL
+        channel.join().then(connection => {
           plays(connection);
         });
       }, 2000);
@@ -45,4 +65,4 @@ client.on('ready', async () => {
 
 });
 
-client.login(TOKEN) //TEST
+client.login(TOKEN)
