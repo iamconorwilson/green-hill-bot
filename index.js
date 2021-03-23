@@ -12,6 +12,7 @@ client.on('ready', async () => {
 //SET STATUS AND CHECK CHANNEL EXISTS
   client.user.setActivity(STATUS,{type: 'LISTENING'})
   const channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
+  console.log(channel);
   if(!channel) return;
 
 //SET UP PLAY FUNCTION
