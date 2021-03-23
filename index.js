@@ -22,8 +22,6 @@ client.on('ready', async () => {
     //IF CHANNEL IS EMPTY, PAUSE
     if (botChannel.members.size <= 1) {
       dispatcher.pause();
-      console.log(botChannel.members.size);
-      console.log('PAUSED');
     };
 
     client.on('voiceStateUpdate', () => {
@@ -31,13 +29,9 @@ client.on('ready', async () => {
       if(botChannel.members.size <= 1) {
         //IF CHANNEL IS EMPTY, PAUSE
         dispatcher.pause();
-        console.log(botChannel.members.size);
-        console.log('PAUSE');
       } else {
         //ELSE RESUME
         dispatcher.resume();
-        console.log(botChannel.members.size);
-        console.log('RESUME');
       }
     });
 
