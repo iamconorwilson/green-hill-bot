@@ -32,7 +32,7 @@ client.on('ready', async () => {
         //IF CHANNEL IS EMPTY, PAUSE
         dispatcher.pause();
         console.log(botChannel.members.size);
-        console.log('PAUSED');
+        console.log('PAUSE');
       } else {
         //ELSE RESUME
         dispatcher.resume();
