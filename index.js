@@ -17,12 +17,7 @@ client.on('ready', async () => {
 //SET UP PLAY FUNCTION
   function plays (connection) {
     let botChannel = connection.channel;
-    
     const dispatcher = connection.play(ytdl(URL));
-    //IF CHANNEL IS EMPTY, PAUSE
-    if (botChannel.members.size <= 1) {
-      dispatcher.pause();
-    };
 
     client.on('voiceStateUpdate', () => {
       //WHEN USER JOINS/LEAVES, CHECK CHANNEL SIZE
@@ -45,24 +40,6 @@ client.on('ready', async () => {
   await channel.join().then(connection => {
     plays(connection);
   })
-
-//EMERGENCY RESTART COMMAND
-  client.on('message', async message => {
-    if (!message.guild) return;
-    if (message.content === '!restartghb') {
-      //CHECK FOR RESTART MESSAGE
-      console.log('Stopping')
-      //LEAVE THE CHANNEL
-      channel.leave();
-      setTimeout(function(){
-        console.log('Restarting')
-        //WAIT 2 SECONDS AND REJOIN CHANNEL
-        channel.join().then(connection => {
-          plays(connection);
-        });
-      }, 2000);
-    }
-  });
 
 });
 
