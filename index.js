@@ -16,27 +16,27 @@ client.on('ready', async () => {
 
 //SET UP PLAY FUNCTION
   function plays (connection) {
-    let botChannelSize = connection.channel.members.size;
+    let botChannel = connection.channel;
     
     const dispatcher = connection.play(ytdl(URL));
     //IF CHANNEL IS EMPTY, PAUSE
-    if (botChannelSize <= 1) {
+    if (botChannel.members.size <= 1) {
       dispatcher.pause();
-      console.log(botChannelSize);
+      console.log(botChannel.members.size);
       console.log('PAUSED');
     };
 
     client.on('voiceStateUpdate', () => {
       //WHEN USER JOINS/LEAVES, CHECK CHANNEL SIZE
-      if(botChannelSize <= 1) {
+      if(botChannel.members.size <= 1) {
         //IF CHANNEL IS EMPTY, PAUSE
         dispatcher.pause();
-        console.log(botChannelSize);
+        console.log(botChannel.members.size);
         console.log('PAUSED');
       } else {
         //ELSE RESUME
         dispatcher.resume();
-        console.log(botChannelSize);
+        console.log(botChannel.members.size);
         console.log('RESUME');
       }
     });
