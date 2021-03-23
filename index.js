@@ -12,21 +12,21 @@ client.on('ready', async () => {
 //SET STATUS AND CHECK CHANNEL EXISTS
   client.user.setActivity(STATUS,{type: 'LISTENING'})
   const channel = client.channels.cache.get(CHANNEL) || await client.channels.fetch(CHANNEL)
-  console.log(channel);
   if(!channel) return;
 
 //SET UP PLAY FUNCTION
   function plays (connection) {
-    //START STREAM
+    let botChannelSize = connection.channel.members.size;
+    console.log(botChannelSize);
     const dispatcher = connection.play(ytdl(URL));
     //IF CHANNEL IS EMPTY, PAUSE
-    if (channel.size <= 1) {
+    if (botChannelSize <= 1) {
       dispatcher.pause();
     };
 
     client.on('voiceStateUpdate', () => {
       //WHEN USER JOINS/LEAVES, CHECK CHANNEL SIZE
-      if(channel.size <= 1) {
+      if(botChannelSize <= 1) {
         //IF CHANNEL IS EMPTY, PAUSE
         dispatcher.pause();
       } else {
